@@ -62,7 +62,7 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 		this.world = new GameWorld(width, height);
 		this.running = true;
 		
-		rv = sm.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+		rv = sm.getDefaultSensor(Sensor.TYPE_GRAVITY);
 		sm.registerListener(this, rv, 100000, new Handler());
 		this.start();
 	}
@@ -85,10 +85,13 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent ev) {
-		if (ev.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-			Log.d("portal-pong", String.format("rotvec: (%f,%f,%f)", ev.values[0], ev.values[1], ev.values[2]));
+		if (ev.sensor.getType() == Sensor.TYPE_GRAVITY) {
+			final float g = SensorManager.GRAVITY_EARTH;
+			ev.values[0] /= g; ev.values[1] /= g; ev.values[2] /= g;
+			Log.d("portal-pong", String.format("g_vec: (%f,%f,%f)", ev.values[0], ev.values[1], ev.values[2]));
 			dx = ev.values[1];
 		}
 	}
+
 
 }
