@@ -1,20 +1,17 @@
-package edu.vub.portalpong;
+package edu.vub.portalpong.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-public class Paddle {
+public class Paddle extends GameObject {
 
-	public int x;
-	public int y;
 	public int width;
 	public int height;
 	private Paint paint;
 
 	public Paddle(int x, int y) {
-		this.x = x;
-		this.y = y;	
+		super(x,y);
 		this.width = 200;
 		this.height = 20;
 		this.paint = new Paint();
@@ -26,6 +23,5 @@ public class Paddle {
 		int halfheight = height / 2;
 		c.drawRect(x-halfwidth, y-halfheight, x+halfwidth, y+halfheight, paint);
 	}
-	
 
 }

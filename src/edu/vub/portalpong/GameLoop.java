@@ -1,5 +1,6 @@
 package edu.vub.portalpong;
 
+import edu.vub.portalpong.objects.GameWorld;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -13,19 +14,14 @@ import android.view.SurfaceHolder.Callback;
 
 public class GameLoop extends Thread implements Callback, SensorEventListener {
 
-	private int width;
-	private int height;
 	private SurfaceHolder holder;
 	private boolean running;
-	private Paddle paddle;
 	private SensorManager sm;
 	private Sensor rv;
 	private float dx;
-	private Ball ball;
+	private GameWorld world;
 
 	public GameLoop(SurfaceHolder holder, SensorManager sm) {
-		this.width = 0;
-		this.height = 0;
 		this.holder = null;
 		this.running = false;
 		this.sm = sm;
@@ -42,8 +38,7 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 			
 			if (now - lastTick >= 20) {
 				lastTick = now;
-				updateBall();
-				updatePaddle();
+				world.update(dx);
 				draw();
 			}
 		}
@@ -52,59 +47,15 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 	private void draw() {
 		Canvas c = holder.lockCanvas();
 		c.drawColor(Color.BLACK);
-		paddle.draw(c);
-		ball.draw(c);
+		world.draw(c);
 		holder.unlockCanvasAndPost(c);
-	}
-
-	private void updatePaddle() {
-		paddle.x -= Math.signum(dx) * Math.sqrt(Math.abs(dx)) * 30;
-		int halfwidth = paddle.width /2;
-		if (paddle.x - halfwidth < 10)
-			paddle.x =10 + halfwidth;
-		if (paddle.x + halfwidth > width - 10)
-			paddle.x = width - 10 - halfwidth;
-	}
-
-	private void updateBall() {
-		ball.x += ball.dx * 10;
-		ball.y += ball.dy * 10;
-		
-		if (ball.x < ball.size) {
-			ball.x = ball.size;
-			ball.dx *= -1;
-		}
-		
-		if (ball.x > width - ball.size) {
-			ball.x = width - ball.size;
-			ball.dx *= -1;
-		}
-		
-		if (ball.y < ball.size) {
-			ball.y = ball.size;
-			ball.dy *= -1;
-		}
-		
-		if (ball.y > height - ball.size) {
-			ball.y = height - ball.size;
-			ball.dy *= -1;
-		}
-		
-		if (ball.x + ball.size >= paddle.x - paddle.width / 2
-		 && ball.x - ball.size <= paddle.x + paddle.width / 2
-		 && ball.y + ball.size >= paddle.y - paddle.height / 2
-		 && ball.dy > 0)
-			ball.dy *= -1;
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		this.width = width;
-		this.height = height;
 		this.holder = holder;
+		this.world = new GameWorld(width, height);
 		this.running = true;
-		this.paddle = new Paddle(width / 2, (int)(height * 0.90) );
-		this.ball = new Ball(width / 2, height / 2);
 		
 		rv = sm.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 		sm.registerListener(this, rv, 100000, new Handler());

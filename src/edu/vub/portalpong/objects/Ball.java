@@ -1,4 +1,4 @@
-package edu.vub.portalpong;
+package edu.vub.portalpong.objects;
 
 import java.util.Random;
 
@@ -6,18 +6,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-public class Ball {
+public class Ball extends GameObject{
 
-	public int x;
-	public int y;
+
 	public double dx;
 	public double dy;
 	private Paint paint;
 	public int size;
 
 	public Ball(int x, int y) {
-		this.x = x;
-		this.y = y;
+		super(x,y);
 		
 		double angle = 2 * Math.PI * new Random().nextDouble();
 		this.dx = Math.cos(angle);
