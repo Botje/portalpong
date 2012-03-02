@@ -88,7 +88,7 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 		if (ev.sensor.getType() == Sensor.TYPE_GRAVITY) {
 			final float g = SensorManager.GRAVITY_EARTH;
 			ev.values[0] /= g; ev.values[1] /= g; ev.values[2] /= g;
-			Log.d("portal-pong", String.format("g_vec: (%f,%f,%f)", ev.values[0], ev.values[1], ev.values[2]));
+//			Log.d("portal-pong", String.format("g_vec: (%f,%f,%f)", ev.values[0], ev.values[1], ev.values[2]));
 			dx = ev.values[1];
 		}
 	}
