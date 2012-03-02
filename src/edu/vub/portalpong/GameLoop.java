@@ -43,6 +43,11 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 			}
 		}
 	}
+
+	public void stopRunning() {
+		running = false;
+		sm.unregisterListener(this, rv);
+	}
 	
 	private void draw() {
 		Canvas c = holder.lockCanvas();
@@ -70,8 +75,7 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		running = false;
-		sm.unregisterListener(this, rv);
+
 	}
 
 	@Override

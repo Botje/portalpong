@@ -7,20 +7,23 @@ import android.view.Menu;
 import android.view.SurfaceView;
 
 public class PortalPongActivity extends Activity {
-    /** Called when the activity is first created. */
+    private GameLoop gl;
+
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         SurfaceView sv = (SurfaceView) findViewById(R.id.field);
         SensorManager sm = (SensorManager)getSystemService(SENSOR_SERVICE);
-		GameLoop gl = new GameLoop(sv.getHolder(), sm);
+		gl = new GameLoop(sv.getHolder(), sm);
         sv.getHolder().addCallback(gl);
     }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		finish();
+		gl.stopRunning();
 		return super.onCreateOptionsMenu(menu);
 	}
     
