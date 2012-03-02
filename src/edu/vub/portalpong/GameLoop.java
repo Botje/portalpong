@@ -1,5 +1,7 @@
 package edu.vub.portalpong;
 
+import java.util.Random;
+
 import edu.vub.portalpong.objects.GameWorld;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,7 +14,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 
-public class GameLoop extends Thread implements Callback, SensorEventListener {
+public class GameLoop extends Thread implements Callback, SensorEventListener, JPortalPong {
 
 	private SurfaceHolder holder;
 	private boolean running;
@@ -20,6 +22,7 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 	private Sensor rv;
 	private float dx;
 	private GameWorld world;
+	public ATPortalPong atpp;
 
 	public GameLoop(SurfaceHolder holder, SensorManager sm) {
 		this.holder = null;
@@ -91,6 +94,16 @@ public class GameLoop extends Thread implements Callback, SensorEventListener {
 //			Log.d("portal-pong", String.format("g_vec: (%f,%f,%f)", ev.values[0], ev.values[1], ev.values[2]));
 			dx = ev.values[1];
 		}
+	}
+
+	public void doHandshake(ATPortalPong atpp) {
+		this.atpp = atpp;
+		atpp.handshake(this);
+	}
+
+	@Override
+	public void spawnPortal(Object playerId) {
+		world.addPortal(playerId);
 	}
 
 

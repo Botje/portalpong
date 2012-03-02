@@ -3,6 +3,7 @@ package edu.vub.portalpong.objects;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -22,10 +23,9 @@ public class GameWorld {
         this.ball = new DoubleBall(width / 2, height / 2, 0.7);
         this.ball.setColor(Color.WHITE);
 		this.portals = new ArrayList<Portal>();
-		this.portals.add(new Portal(400, 200));
 	}
 
-	public void update(float dx) {
+	public synchronized void update(float dx) {
 		updatePaddle(dx);
 		updateBall();
 	}
@@ -77,10 +77,17 @@ public class GameWorld {
 		}
 	}
 
-	public void draw(Canvas c) {
+	public synchronized void draw(Canvas c) {
 		paddle.draw(c);
 		ball.draw(c);
 		for (Portal p: portals)
 			p.draw(c);
+	}
+
+	public synchronized void addPortal(Object playerId) {
+		Random r = new Random();
+		int x = (int)((width - 100) * r.nextFloat() + 50);
+		int y = (int)((height / 2) * r.nextFloat() + 50);
+		portals.add(new Portal(x,y,playerId));
 	}
 }

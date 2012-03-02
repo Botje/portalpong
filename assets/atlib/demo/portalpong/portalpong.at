@@ -1,0 +1,21 @@
+deftype PortalPong;
+network.online;
+
+def atpp;
+system.println("hallo");
+
+def return := object: {
+	def handshake(atpp_) { atpp := atpp_; };
+};
+
+def me := object: {};
+
+export: me as: PortalPong;
+
+whenever: PortalPong discovered: { |pp|
+	atpp.spawnPortal(pp);
+};
+
+
+
+object: { def return := return }

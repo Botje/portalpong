@@ -11,15 +11,18 @@ public class Portal extends DoubleBall {
 	protected Paint ringPaint;
 	private int ringRadius;
 	private int radiusDiff = -1;
+	private Object playerId;
 
-	public Portal(int x, int y) {
-		this(x, y, 0.6);
+
+	public Portal(int x, int y, Object playerId) {
+		this(x, y, playerId, 0.6);
 	}
 	
-	public Portal(int x, int y, double ratio) {
+	public Portal(int x, int y, Object playerId, double ratio) {
 		super(x, y, ratio);
 		super.setSize(40);
 		this.ringRadius = this.size;
+		this.playerId = playerId;
 		this.ringPaint = new Paint();
 		this.ringPaint.setStyle(Style.STROKE);
 		this.ringPaint.setStrokeWidth(5);
@@ -46,7 +49,7 @@ public class Portal extends DoubleBall {
 	}
 
 	public void enter(Ball ball) {
-		Log.d("portal-pong","Portal entered!");
+//		Log.d("portal-pong","Portal entered!");
 	}
 	
 	public void setColor(int color) {
