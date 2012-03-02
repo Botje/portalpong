@@ -1,5 +1,9 @@
 package edu.vub.portalpong.objects;
 
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import android.graphics.Canvas;
 
 public class GameWorld {
@@ -7,17 +11,20 @@ public class GameWorld {
 	
 	public Paddle paddle;
 	public Ball ball;
+	private Collection<Portal> portals;
 
 	public GameWorld(int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.paddle = new Paddle(width / 2, (int)(height * 0.90) );
 		this.ball = new Ball(width / 2, height / 2);
+		this.portals = new ArrayList<Portal>();
+		this.portals.add(new Portal(400, 200));
 	}
 
 	public void update(float dx) {
 		updatePaddle(dx);
-		updateBall();
+		updateBall();			
 	}
 	
 	private void updatePaddle(float dx) {
@@ -58,10 +65,19 @@ public class GameWorld {
 		 && ball.y + ball.size >= paddle.y - paddle.height / 2
 		 && ball.dy > 0)
 			ball.dy *= -1;
+		
+		for (Portal p: portals) {
+			if (p.collidesWith(ball)) {
+				p.enter(ball);
+				break;
+			}
+		}
 	}
 
 	public void draw(Canvas c) {
 		paddle.draw(c);
 		ball.draw(c);
+		for (Portal p: portals)
+			p.draw(c);
 	}
 }
