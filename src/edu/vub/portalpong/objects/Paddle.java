@@ -8,7 +8,7 @@ public class Paddle extends GameObject {
 
 	public int width;
 	public int height;
-	private Paint paint;
+	protected Paint paint;
 
 	public Paddle(int x, int y) {
 		super(x,y);
@@ -22,6 +22,10 @@ public class Paddle extends GameObject {
 		int halfwidth = width / 2;
 		int halfheight = height / 2;
 		c.drawRect(x-halfwidth, y-halfheight, x+halfwidth, y+halfheight, paint);
+	}
+	
+	public void setColor(int color) {
+		this.paint.setColor(color);
 	}
 
 }

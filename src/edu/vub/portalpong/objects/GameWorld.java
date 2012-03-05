@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 
 public class GameWorld {
 	private int width, height;
@@ -16,15 +17,17 @@ public class GameWorld {
 	public GameWorld(int width, int height) {
 		this.width = width;
 		this.height = height;
-		this.paddle = new Paddle(width / 2, (int)(height * 0.90) );
-		this.ball = new Ball(width / 2, height / 2);
+		this.paddle = new FancyPaddle(width / 2, (int)(height * 0.90), 0.7);
+		this.paddle.setColor(Color.WHITE);
+        this.ball = new DoubleBall(width / 2, height / 2, 0.7);
+        this.ball.setColor(Color.WHITE);
 		this.portals = new ArrayList<Portal>();
 		this.portals.add(new Portal(400, 200));
 	}
 
 	public void update(float dx) {
 		updatePaddle(dx);
-		updateBall();			
+		updateBall();
 	}
 	
 	private void updatePaddle(float dx) {
