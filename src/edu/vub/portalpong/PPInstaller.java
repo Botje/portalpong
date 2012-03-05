@@ -5,7 +5,7 @@ import edu.vub.at.android.util.AssetInstaller;
 public class PPInstaller extends AssetInstaller {
 
 	public PPInstaller() {
-		super(false);
+		super(true);
 		development = true;
 	}
 
