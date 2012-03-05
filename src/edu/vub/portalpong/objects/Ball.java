@@ -11,8 +11,8 @@ public class Ball extends GameObject{
 
 	public double dx;
 	public double dy;
-	private Paint paint;
-	public int size;
+	protected Paint paint;
+	protected int size;
 
 	public Ball(int x, int y) {
 		super(x,y);
@@ -35,7 +35,16 @@ public class Ball extends GameObject{
 	}
 
 	public void draw(Canvas c) {
-		c.drawRect(x-size, y-size, x+size, y+size, paint);
+		//c.drawRect(x-size, y-size, x+size, y+size, paint);
+		c.drawCircle(x, y, size, paint);
+	}
+	
+	public void setColor(int color) {
+		this.paint.setColor(color);
+	}
+	
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 }
