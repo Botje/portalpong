@@ -1,8 +1,5 @@
 package edu.vub.portalpong;
 
-import java.util.Random;
-
-import edu.vub.portalpong.objects.GameWorld;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -10,9 +7,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
+import edu.vub.portalpong.objects.GameWorld;
+import edu.vub.portalpong.objects.Portal;
 
 public class GameLoop extends Thread implements Callback, SensorEventListener, JPortalPong {
 
@@ -99,11 +97,17 @@ public class GameLoop extends Thread implements Callback, SensorEventListener, J
 	public void doHandshake(ATPortalPong atpp) {
 		this.atpp = atpp;
 		atpp.handshake(this);
+		world.setATPP(atpp);
 	}
 
 	@Override
-	public void spawnPortal(Object playerId) {
-		world.addPortal(playerId);
+	public Portal spawnPortal(Object playerId) {
+		return world.addPortal(playerId);
+	}
+
+	@Override
+	public void spawnBall(Portal p, double dx, double dy) {
+		world.addBall((int)(p.x + p.ringRadius * 1.05 * dx), (int)(p.y + p.ringRadius * 1.05 * dy), dx, dy);
 	}
 
 

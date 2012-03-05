@@ -29,6 +29,17 @@ public class Ball extends GameObject{
 		this.size = 40 / 2;
 	}
 
+	public Ball(int x, int y, double dx, double dy) {
+		super(x,y);
+		
+		this.dx = dx;
+		this.dy = dy;
+		
+		this.paint = new Paint();
+		this.paint.setColor(Color.WHITE);
+		this.size = 40 / 2;
+	}
+
 	private boolean goodAngle(double angle) {
 		return Math.abs(dx) < 0.90 && Math.abs(dx) > 0.10
 		    && Math.abs(dy) < 0.90 && Math.abs(dy) > 0.10;

@@ -1,10 +1,5 @@
 package edu.vub.portalpong;
 
-import java.io.IOException;
-
-import edu.vub.at.IAT;
-import edu.vub.at.android.util.IATAndroid;
-import edu.vub.at.exceptions.InterpreterException;
 import android.app.Activity;
 import android.content.Intent;
 import android.hardware.SensorManager;
@@ -13,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.SurfaceView;
+import edu.vub.at.android.util.IATAndroid;
 
 public class PortalPongActivity extends Activity {
     public static IATAndroid iat_;

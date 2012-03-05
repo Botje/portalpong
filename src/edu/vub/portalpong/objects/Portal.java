@@ -4,14 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.util.Log;
 
 public class Portal extends DoubleBall {
 
 	protected Paint ringPaint;
-	private int ringRadius;
+	public int ringRadius;
 	private int radiusDiff = -1;
-	private Object playerId;
+	public Object playerId;
+	private boolean active;
 
 
 	public Portal(int x, int y, Object playerId) {
@@ -27,29 +27,39 @@ public class Portal extends DoubleBall {
 		this.ringPaint.setStyle(Style.STROKE);
 		this.ringPaint.setStrokeWidth(5);
 		this.setColor(Color.GREEN);
+		this.active = true;
 	}
 
 	public boolean collidesWith(Ball ball) {
+		if (!active)
+			return false;
+		
 		int dist2 = (int) Math.pow(ball.x - this.x, 2) + (int) Math.pow(ball.y - this.y, 2);
 		return dist2 < this.size * this.size;
 	}
 
 	@Override
 	public void draw(Canvas c) {
-		super.draw(c);
-		c.drawCircle(x, y, this.size, ringPaint);
-		if (ringRadius <= this.size * super.ratio * super.ratio) {
-			this.radiusDiff = 1;
+		if (active) {
+			super.draw(c);
+			c.drawCircle(x, y, this.size, ringPaint);
+			if (ringRadius <= this.size * super.ratio * super.ratio) {
+				this.radiusDiff = 1;
+			}
+			if (ringRadius >= this.size) {
+				this.radiusDiff = -1;
+			}
+			ringRadius = ringRadius + radiusDiff;
+			c.drawCircle(x, y, ringRadius, ringPaint);
 		}
-		if (ringRadius >= this.size) {
-			this.radiusDiff = -1;
-		}
-		ringRadius = ringRadius + radiusDiff;
-		c.drawCircle(x, y, ringRadius, ringPaint);
 	}
-
-	public void enter(Ball ball) {
-//		Log.d("portal-pong","Portal entered!");
+	
+	public void show() {
+		active = true;
+	}
+	
+	public void hide() {
+		active = false;
 	}
 	
 	public void setColor(int color) {

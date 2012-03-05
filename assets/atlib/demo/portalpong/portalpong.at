@@ -1,19 +1,34 @@
 deftype PortalPong;
 network.online;
 
-def atpp;
+def jpp;
 system.println("hallo");
 
-def return := object: {
-	def handshake(atpp_) { atpp := atpp_; };
+def ref2portal := jlobby.java.util.HashMap.new();
+
+def me := object: {
+	def enterPortal(origin, dx, dy) { jpp.spawnBall(ref2portal.get(origin), dx,dy) }
 };
-
-def me := object: {};
-
 export: me as: PortalPong;
 
+def return := object: {
+	def handshake(jpp_) { jpp := jpp_; };
+	def enterPortal(pp, dx, dy) { pp<-enterPortal(me, dx, dy); nil };
+};
+
+
 whenever: PortalPong discovered: { |pp|
-	atpp.spawnPortal(pp);
+	if: (!ref2portal.containsKey(pp)) then: {
+		ref2portal.put(pp, jpp.spawnPortal(pp));
+		
+		whenever: pp disconnected: {
+			ref2portal.get(pp).hide();
+		};
+		
+		whenever: pp reconnected: {
+			ref2portal.get(pp).show();
+		};
+	}
 };
 
 
